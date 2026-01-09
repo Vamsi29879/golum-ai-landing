@@ -1,4 +1,5 @@
 "use client";
+
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
 import {
@@ -18,7 +19,8 @@ import {
 // Golum AI — Futuristic / Quantum-era landing page
 // Single-file React component (Tailwind + Framer Motion). No external assets required.
 
-const cx = (...c) => c.filter(Boolean).join(" ");
+const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
+
 
 function usePrefersReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -145,7 +147,7 @@ function SectionTitle({ kicker, title, subtitle }) {
   );
 }
 
-function HowItWorksTimeline({ reducedMotion }) {
+function HowItWorksTimeline({ reducedMotion: boolean}) {
   const steps = useMemo(
     () => [
       {
@@ -253,7 +255,7 @@ function HowItWorksTimeline({ reducedMotion }) {
   );
 }
 
-function ProductCards({ reducedMotion }) {
+function ProductCards({ reducedMotion: boolean  }) {
   const products = [
     {
       title: "Digital Twin",
@@ -329,7 +331,7 @@ function ProductCards({ reducedMotion }) {
   );
 }
 
-function AnimatedTerminal({ reducedMotion }) {
+function AnimatedTerminal({ reducedMotion: boolean }) {
   const lines = useMemo(
     () => [
       { k: "query", v: "How are we trending vs forecast today?" },
@@ -480,7 +482,8 @@ function Footer() {
 export default function GolumAILanding() {
   const reducedMotion = usePrefersReducedMotion();
 
-  const scrollTo = (id) => {
+ const scrollTo = (id: string) => {
+
     const el = document.getElementById(id);
     el?.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
   };
