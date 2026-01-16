@@ -1,3 +1,11 @@
+Below is the **full updated code** with both fixes:
+
+1. **No purple hue anywhere** → only **neon teal/cyan + black** (removed all amber/yellow + any warm/purple-leaning gradients).
+2. **“Request a demo” inputs are no longer white** → forced **dark immersive inputs** using `!bg-black/...` + `appearance-none` so even if some global CSS tries to style inputs white, Tailwind wins.
+
+Copy-paste this entire file:
+
+```tsx
 "use client";
 
 import React, { useEffect, useMemo, useRef, useState, useCallback } from "react";
@@ -47,23 +55,20 @@ function usePrefersReducedMotion() {
 }
 
 function GlowOrb({ className = "", seed = 1 }: { className?: string; seed?: number }) {
-  // Procedural glow blob (SVG) for background accents (teal/cyan)
-  const r1 = 120 + (seed % 3) * 20;
-  const r2 = 180 + (seed % 4) * 18;
-  const hue = 155 + (seed % 6) * 18;
+  // Keep hues strictly in teal/cyan range to avoid any purple tint.
+  const r1 = 120 + (seed % 3) * 18;
+  const r2 = 180 + (seed % 4) * 16;
+
+  // Teal → Cyan only (approx 170..200). Never exceeds ~205 to avoid blue/purple shift.
+  const baseHue = 172 + (seed % 4) * 8; // 172, 180, 188, 196
+  const hue2 = Math.min(baseHue + 18, 205);
 
   return (
-    <svg
-      className={cx("absolute blur-3xl opacity-60", className)}
-      width="560"
-      height="560"
-      viewBox="0 0 560 560"
-      aria-hidden
-    >
+    <svg className={cx("absolute blur-3xl opacity-55", className)} width="560" height="560" viewBox="0 0 560 560" aria-hidden>
       <defs>
         <radialGradient id={`g-${seed}`} cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor={`hsl(${hue} 95% 70% / 0.85)`} />
-          <stop offset="45%" stopColor={`hsl(${hue + 40} 95% 65% / 0.35)`} />
+          <stop offset="0%" stopColor={`hsl(${baseHue} 95% 70% / 0.82)`} />
+          <stop offset="45%" stopColor={`hsl(${hue2} 95% 65% / 0.32)`} />
           <stop offset="100%" stopColor="transparent" />
         </radialGradient>
       </defs>
@@ -76,8 +81,13 @@ function GlowOrb({ className = "", seed = 1 }: { className?: string; seed?: numb
 function QuantumGrid({ className = "", reducedMotion }: { className?: string; reducedMotion: boolean }) {
   return (
     <div className={cx("absolute inset-0", className)} aria-hidden>
+      {/* Teal/cyan glow field */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_40%,rgba(56,189,248,0.18),transparent_55%)]" />
+
+      {/* Grid */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:56px_56px] opacity-40" />
+
+      {/* Scan shimmer (teal) */}
       {!reducedMotion ? (
         <motion.div
           className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(16,185,129,0.18),transparent)]"
@@ -87,14 +97,16 @@ function QuantumGrid({ className = "", reducedMotion }: { className?: string; re
           style={{ mixBlendMode: "screen" }}
         />
       ) : null}
-      <div className="absolute inset-0 [mask-image:radial-gradient(circle_at_50%_35%,black,transparent_70%)] bg-[radial-gradient(circle_at_50%_50%,rgba(250,204,21,0.05),transparent_58%)]" />
+
+      {/* Extra soft teal highlight (no yellow / no purple) */}
+      <div className="absolute inset-0 [mask-image:radial-gradient(circle_at_50%_35%,black,transparent_70%)] bg-[radial-gradient(circle_at_50%_50%,rgba(16,185,129,0.08),transparent_58%)]" />
     </div>
   );
 }
 
 /**
- * Cursor orb that tracks the real cursor 1:1 (no spring smoothing).
- * Uses rAF to avoid flooding updates.
+ * Cursor orb that tracks the real cursor 1:1 (no lag).
+ * Uses requestAnimationFrame to stay smooth + performant.
  */
 function CursorOrb({ reducedMotion }: { reducedMotion: boolean }) {
   const x = useMotionValue(-100);
@@ -187,7 +199,7 @@ function SectionTitle({ kicker, title, subtitle }: { kicker: string; title: stri
     <div className="mx-auto max-w-3xl text-center">
       <div className="mb-3 flex items-center justify-center">
         <span className="inline-flex items-center gap-2 rounded-full bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-          <Sparkles className="h-4 w-4 text-amber-300" />
+          <Sparkles className="h-4 w-4 text-sky-200" />
           {kicker}
         </span>
       </div>
@@ -315,7 +327,8 @@ function ProductCards({ reducedMotion }: { reducedMotion: boolean }) {
           "Run what-if simulations inspired by big-tech digital twin programs (capacity, routing, supply risk)",
           "Stress-test reorder policies and promotions before you ship changes",
         ],
-        accent: "from-emerald-400/22 via-sky-400/12 to-amber-300/8",
+        // Only neon teal/cyan + black (no amber/yellow)
+        accent: "from-emerald-400/22 via-sky-400/14 to-white/6",
       },
       {
         title: "Digital Worker",
@@ -326,7 +339,7 @@ function ProductCards({ reducedMotion }: { reducedMotion: boolean }) {
           "Drafts POs, reconciles shipments, and flags exceptions before they become losses",
           "Executes approved actions with audit logs, confidence gating, and rollback",
         ],
-        accent: "from-sky-400/22 via-emerald-400/12 to-amber-300/8",
+        accent: "from-sky-400/22 via-emerald-400/14 to-white/6",
       },
       {
         title: "Co-Pilot",
@@ -337,7 +350,7 @@ function ProductCards({ reducedMotion }: { reducedMotion: boolean }) {
           "Guided workflows with approvals, playbooks, and operator-in-the-loop control",
           "One place to ask, simulate, and execute—without leaving your stack",
         ],
-        accent: "from-emerald-400/18 via-sky-400/12 to-amber-300/8",
+        accent: "from-emerald-400/18 via-sky-400/14 to-white/6",
       },
     ],
     []
@@ -360,7 +373,7 @@ function ProductCards({ reducedMotion }: { reducedMotion: boolean }) {
             <div className="flex items-start justify-between gap-4">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/12">
-                  <Blocks className="h-4 w-4 text-amber-300" />
+                  <Blocks className="h-4 w-4 text-sky-200" />
                   Product
                 </div>
                 <h3 className="mt-3 text-2xl font-semibold text-white">{p.title}</h3>
@@ -568,6 +581,10 @@ function DemoForm({ reducedMotion }: { reducedMotion: boolean }) {
 
   const isBusy = status === "loading" || status === "success";
 
+  const inputClass =
+    "!appearance-none !bg-black/35 !text-white placeholder:!text-white/35 ring-1 ring-white/12 outline-none " +
+    "focus:ring-2 focus:ring-emerald-300/40 w-full rounded-2xl px-4 py-3 text-sm";
+
   return (
     <form onSubmit={onSubmit} className="mt-5 space-y-3">
       <div className="space-y-1">
@@ -581,7 +598,7 @@ function DemoForm({ reducedMotion }: { reducedMotion: boolean }) {
           required
           value={values.name}
           onChange={(e) => setValues((v) => ({ ...v, name: e.target.value }))}
-          className="w-full rounded-2xl bg-white/8 px-4 py-3 text-sm text-white placeholder:text-white/40 ring-1 ring-white/12 outline-none focus:ring-2 focus:ring-emerald-300/40"
+          className={inputClass}
           placeholder="Your name"
         />
       </div>
@@ -598,7 +615,7 @@ function DemoForm({ reducedMotion }: { reducedMotion: boolean }) {
           required
           value={values.email}
           onChange={(e) => setValues((v) => ({ ...v, email: e.target.value }))}
-          className="w-full rounded-2xl bg-white/8 px-4 py-3 text-sm text-white placeholder:text-white/40 ring-1 ring-white/12 outline-none focus:ring-2 focus:ring-emerald-300/40"
+          className={inputClass}
           placeholder="you@company.com"
         />
       </div>
@@ -614,7 +631,7 @@ function DemoForm({ reducedMotion }: { reducedMotion: boolean }) {
           required
           value={values.company}
           onChange={(e) => setValues((v) => ({ ...v, company: e.target.value }))}
-          className="w-full rounded-2xl bg-white/8 px-4 py-3 text-sm text-white placeholder:text-white/40 ring-1 ring-white/12 outline-none focus:ring-2 focus:ring-emerald-300/40"
+          className={inputClass}
           placeholder="Company name"
         />
       </div>
@@ -653,19 +670,19 @@ export default function GolemAILanding() {
 
   return (
     <div className="min-h-screen bg-[#06070B] text-white">
-      {/* Background */}
+      {/* Background (neon teal/cyan + black only) */}
       <div className="pointer-events-none fixed inset-0">
         <QuantumGrid reducedMotion={reducedMotion} />
         <GlowOrb seed={1} className="-left-40 -top-52" />
         <GlowOrb seed={2} className="-right-44 top-20" />
 
-        {/* Removed purple blob. Replaced with black depth glow */}
-        <div className="absolute left-20 bottom-[-260px] h-[560px] w-[560px] rounded-full bg-black/70 blur-3xl" />
+        {/* Remove any bottom color blob entirely; use pure black depth */}
+        <div className="absolute left-10 bottom-[-280px] h-[720px] w-[720px] rounded-full bg-black/80 blur-3xl" />
 
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.06),transparent_55%)]" />
       </div>
 
-      {/* Cursor orb (fixed to real cursor, no lag) */}
+      {/* Cursor orb (fixed to cursor, no lag) */}
       <CursorOrb reducedMotion={reducedMotion} />
 
       {/* Nav */}
@@ -710,8 +727,8 @@ export default function GolemAILanding() {
         </div>
       </header>
 
-      {/* Hero */}
       <main className="relative">
+        {/* Hero */}
         <section className="relative mx-auto max-w-6xl px-6 pb-16 pt-14 sm:pt-20">
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
@@ -728,7 +745,7 @@ export default function GolemAILanding() {
                 className="mt-6 text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
               >
                 Next-gen operations powered by{" "}
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-sky-200 to-amber-200">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-sky-200 to-emerald-200">
                   Golem AI
                 </span>
               </motion.h1>
@@ -878,8 +895,10 @@ export default function GolemAILanding() {
         {/* CTA */}
         <section id="cta" className="relative mx-auto max-w-6xl px-6 pb-24 pt-10">
           <div className="relative overflow-hidden rounded-3xl bg-white/6 p-10 ring-1 ring-white/12 backdrop-blur-xl">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.25),transparent_55%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.22),transparent_55%)]" />
+            {/* Teal-only glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.22),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.18),transparent_55%)]" />
+
             <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div>
                 <h3 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
@@ -896,7 +915,7 @@ export default function GolemAILanding() {
                 </div>
               </div>
 
-              <div className="rounded-3xl bg-black/30 p-6 ring-1 ring-white/12">
+              <div className="rounded-3xl bg-black/30 p-6 ring-1 ring-white/12 backdrop-blur-xl">
                 <div className="text-sm font-semibold text-white">Request a demo</div>
                 <p className="mt-1 text-xs text-white/55">Leave details and we’ll reach out.</p>
                 <DemoForm reducedMotion={reducedMotion} />
@@ -910,4 +929,8 @@ export default function GolemAILanding() {
     </div>
   );
 }
+```
+
+If you *still* see a purple tint after this, it’s almost always from **browser color management / display profile** or a **global CSS** rule adding gradients. In that case, paste your `globals.css` (or any theme CSS) and I’ll point out the exact rule causing it.
+
 
