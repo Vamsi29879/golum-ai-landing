@@ -6,12 +6,9 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Blocks,
-  Brain,
-  CheckCircle2,
-  ChevronDown,
+  Brain,  ChevronDown,
   Cpu,
   Database,
-  Globe,
   Lock,
   Sparkles,
   Workflow,
@@ -22,10 +19,11 @@ const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean)
 function BrandMark({ className = "" }: { className?: string }) {
   // Gradient wordmark: teal/cyan "Golem" + golden "AI"
   return (
-    <span className={cx("inline-flex items-baseline gap-1", className)}>
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-emerald-200 to-sky-100 drop-shadow-[0_0_18px_rgba(56,189,248,0.20)]">
+    <span className={cx("inline-flex items-baseline", className)}>
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-emerald-200 to-sky-100 drop-shadow-[0_0_18px_rgba(56,189,248,0.12)]">
         Golem
       </span>
+      <span className="inline-block w-1" aria-hidden />
       <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-200 to-amber-100 drop-shadow-[0_0_18px_rgba(251,191,36,0.18)]">
         AI
       </span>
@@ -94,7 +92,7 @@ function DotParticles({ reducedMotion }: { reducedMotion: boolean }) {
       canvas.style.height = `${h}px`;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
 
-      const count = Math.max(70, Math.floor((w * h) / 22000));
+      const count = Math.max(55, Math.floor((w * h) / 36000));
       const arr: typeof particlesRef.current = [];
 
       for (let i = 0; i < count; i++) {
@@ -132,10 +130,9 @@ function DotParticles({ reducedMotion }: { reducedMotion: boolean }) {
           if (p.y > h + 10) p.y = -10;
         }
 
-        const tw = reducedMotion ? 1 : 0.9 + 0.2 * Math.sin((p.x + p.y) * 0.002);
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(168, 237, 255, ${Math.min(0.85, p.a * tw)})`;
+        ctx.fillStyle = `rgba(168, 237, 255, ${Math.min(0.85, p.a)})`;
         ctx.fill();
       }
 
@@ -150,22 +147,19 @@ function DotParticles({ reducedMotion }: { reducedMotion: boolean }) {
     };
   }, [reducedMotion]);
 
-  return <canvas ref={canvasRef} aria-hidden className="absolute inset-0 pointer-events-none opacity-80" />;
+  return <canvas ref={canvasRef} aria-hidden className="absolute inset-0 pointer-events-none opacity-100" />;
 }
 
 function QuantumGrid({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <div className="absolute inset-0 pointer-events-none" aria-hidden>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(56,189,248,0.14),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] bg-[size:72px_72px] opacity-35" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(56,189,248,0.05),transparent_55%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:72px_72px] opacity-25" />
 
       {!reducedMotion ? (
-        <motion.div
-          className="absolute inset-0 bg-[linear-gradient(to_bottom,transparent,rgba(16,185,129,0.16),transparent)]"
-          initial={{ y: "-60%" }}
-          animate={{ y: "160%" }}
-          transition={{ duration: 7.2, repeat: Infinity, ease: "linear" }}
-          style={{ mixBlendMode: "screen" }}
+        <div
+          className="absolute inset-0 q-scan will-change-transform"
+          style={{ mixBlendMode: "screen" as any }}
         />
       ) : null}
 
@@ -214,15 +208,24 @@ function CursorOrb({ reducedMotion }: { reducedMotion: boolean }) {
       className="pointer-events-none fixed left-0 top-0 z-[60] -translate-x-1/2 -translate-y-1/2"
       style={{ x, y }}
     >
-      <div className="h-2.5 w-2.5 rounded-full bg-sky-200/95 shadow-[0_0_0_7px_rgba(56,189,248,0.10),0_0_32px_rgba(56,189,248,0.35)]" />
+      <div className="h-2.5 w-2.5 rounded-[12px] bg-sky-200/95 shadow-[0_0_0_7px_rgba(56,189,248,0.10),0_0_32px_rgba(56,189,248,0.35)]" />
     </motion.div>
   );
 }
 
 function Pill({ children, icon: Icon }: { children: React.ReactNode; icon?: LucideIcon }) {
   return (
-    <div className="inline-flex items-center gap-2 rounded-full bg-white/6 px-4 py-2 text-xs text-white/80 ring-1 ring-white/10">
+    <div className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-4 py-2 text-xs text-white/80 ring-1 ring-white/10">
       {Icon ? <Icon className="h-4 w-4 text-emerald-300" /> : null}
+      <span>{children}</span>
+    </div>
+  );
+}
+
+function DotPill({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-4 py-2 text-xs text-white/80 ring-1 ring-white/10">
+      <span className="h-2 w-2 rounded-[12px] bg-emerald-300 shadow-[0_0_18px_rgba(16,185,129,0.45)]" />
       <span>{children}</span>
     </div>
   );
@@ -244,7 +247,7 @@ function PrimaryButton({
       type={type}
       onClick={onClick}
       className={cx(
-        "relative inline-flex items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold",
+        "relative inline-flex items-center justify-center gap-2 rounded-[12px] px-5 py-2.5 text-sm font-semibold",
         "bg-white/10 ring-1 ring-white/15 backdrop-blur-xl",
         "shadow-[0_0_0_1px_rgba(255,255,255,0.08),0_30px_120px_-50px_rgba(56,189,248,0.55)]",
         "hover:bg-white/14 transition",
@@ -252,7 +255,7 @@ function PrimaryButton({
         className
       )}
     >
-      <span className="absolute inset-0 rounded-full bg-[radial-gradient(circle_at_35%_35%,rgba(56,189,248,0.30),transparent_55%)] opacity-0 hover:opacity-100 transition" />
+      <span className="absolute inset-0 rounded-[12px] bg-[radial-gradient(circle_at_35%_35%,rgba(56,189,248,0.30),transparent_55%)] opacity-0 hover:opacity-100 transition" />
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </button>
   );
@@ -262,7 +265,7 @@ function GhostButton({ children, onClick }: { children: React.ReactNode; onClick
   return (
     <button
       onClick={onClick}
-      className="inline-flex items-center justify-center gap-2 rounded-full bg-white/5 px-5 py-2.5 text-sm font-semibold text-white/85 ring-1 ring-white/10 hover:bg-white/8 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/50"
+      className="inline-flex items-center justify-center gap-2 rounded-[12px] bg-white/5 px-5 py-2.5 text-sm font-semibold text-white/85 ring-1 ring-white/10 hover:bg-white/8 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/50"
     >
       {children}
     </button>
@@ -272,20 +275,12 @@ function GhostButton({ children, onClick }: { children: React.ReactNode; onClick
 function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
   const lines = useMemo(
     () => [
-      { k: "query", v: "What’s our stockout risk for the next 7 days?" },
-      {
-        k: "golem",
-        v: "High risk on 3 SKUs: (1) Fast movers: 2.1 days cover. (2) Supplier delay: +4 days. (3) Seasonal spike: demand +18% WoW.",
-      },
-      {
-        k: "golem",
-        v: "Top threats: (1) Safety stock below threshold. (2) Inbound variance rising. (3) Pick-pack capacity tight Friday.",
-      },
-      {
-        k: "golem",
-        v: "Actions: (A) Expedite PO #1842. (B) Rebalance inventory across sites. (C) Enable substitution rules at checkout.",
-      },
-      { k: "golem", v: "Confidence: 0.84 · Rollback window: 15 min · Audit log: enabled" },
+      { k: "query", v: "Stockout risk this week?" },
+      { k: "golem", v: "Three SKUs at risk today." },
+      { k: "query", v: "Next best action?" },
+      { k: "golem", v: "Expedite PO 1842, rebalance safety stock." },
+      { k: "query", v: "Lead time stable?" },
+      { k: "golem", v: "Supplier B delayed four days." },
     ],
     []
   );
@@ -299,18 +294,14 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
   }, [reducedMotion, lines.length]);
 
   return (
-    <div className="relative overflow-hidden rounded-3xl bg-black/45 ring-1 ring-white/12 backdrop-blur-xl">
+    <div className="relative overflow-hidden rounded-[16px] bg-black/45 ring-1 ring-white/12 backdrop-blur-xl">
       <div className="flex items-center justify-between border-b border-white/10 px-5 py-3">
         <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
-          <div className="h-2 w-2 rounded-full bg-emerald-300" />
+          <div className="h-2 w-2 rounded-[12px] bg-emerald-300" />
           <span className="inline-flex items-baseline gap-2">
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-emerald-200">Golem</span>
             <span className="text-white/70">Terminal</span>
           </span>
-        </div>
-        <div className="flex items-center gap-2 text-[11px] text-white/50">
-          <Lock className="h-4 w-4" />
-          Evidence-grounded
         </div>
       </div>
 
@@ -319,38 +310,39 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
           <AnimatePresence mode="wait">
             <motion.div
               key={index}
-              initial={reducedMotion ? false : { opacity: 0, y: 8 }}
+              layout="position"
+              initial={reducedMotion ? false : { opacity: 0, y: 4 }}
               animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              exit={reducedMotion ? {} : { opacity: 0, y: -8 }}
-              transition={{ duration: 0.35 }}
-              className="leading-relaxed"
+              exit={reducedMotion ? {} : { opacity: 0, y: -4 }}
+              transition={{ type: "tween", duration: 0.22, ease: "easeOut" }}
+              className="leading-relaxed will-change-transform transform-gpu"
             >
               <span
                 className={cx(
-                  "mr-2 inline-flex items-center rounded-full px-2 py-1 text-[11px] font-semibold ring-1",
+                  "mr-2 inline-flex items-center rounded-[12px] px-2 py-1 text-[11px] font-semibold ring-1",
                   lines[index].k === "query"
                     ? "bg-sky-400/15 text-sky-200 ring-sky-300/20"
                     : "bg-emerald-400/15 text-emerald-200 ring-emerald-300/20"
                 )}
               >
-                {lines[index].k === "query" ? "Operator" : "Golem"}
+                {lines[index].k === "query" ? "Ops Manager" : "Golem"}
               </span>
               <span className="text-white/80">{lines[index].v}</span>
             </motion.div>
           </AnimatePresence>
         </div>
 
-        <div className="mt-5 rounded-2xl bg-white/5 p-4 ring-1 ring-white/10">
+        <div className="mt-5 rounded-[12px] bg-white/5 p-4 ring-1 ring-white/10">
           <div className="grid gap-3 sm:grid-cols-3">
-            <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+            <div className="rounded-[10px] bg-white/5 p-3 ring-1 ring-white/10">
               <div className="text-[11px] font-semibold text-white/55">Service Level</div>
               <div className="mt-1 text-xl font-semibold text-white">98.1%</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+            <div className="rounded-[10px] bg-white/5 p-3 ring-1 ring-white/10">
               <div className="text-[11px] font-semibold text-white/55">Lead Time Drift</div>
               <div className="mt-1 text-xl font-semibold text-white">+4d</div>
             </div>
-            <div className="rounded-xl bg-white/5 p-3 ring-1 ring-white/10">
+            <div className="rounded-[10px] bg-white/5 p-3 ring-1 ring-white/10">
               <div className="text-[11px] font-semibold text-white/55">Forecasted Demand</div>
               <div className="mt-1 text-xl font-semibold text-white">+15%</div>
             </div>
@@ -358,16 +350,15 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
         </div>
       </div>
 
-      {!reducedMotion ? (
-        <motion.div
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(to_bottom,rgba(56,189,248,0.0),rgba(56,189,248,0.10),rgba(56,189,248,0.0))]"
-          initial={{ y: "-40%" }}
-          animate={{ y: ["-40%", "120%", "-40%"] }}
-          transition={{ duration: 6.0, repeat: Infinity, ease: "easeInOut" }}
-          style={{ mixBlendMode: "screen" }}
-        />
-      ) : null}
+      {/* scanline */}
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(to_bottom,rgba(56,189,248,0.0),rgba(56,189,248,0.08),rgba(56,189,248,0.0))]"
+        initial={{ y: "-40%" }}
+        animate={reducedMotion ? {} : { y: ["-40%", "120%", "-40%"] }}
+        transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}
+        style={{ mixBlendMode: "screen" as any }}
+      />
     </div>
   );
 }
@@ -394,7 +385,7 @@ function FAQ() {
 
   return (
     <div className="mx-auto mt-10 max-w-4xl">
-      <div className="divide-y divide-white/10 overflow-hidden rounded-3xl bg-white/6 ring-1 ring-white/12 backdrop-blur-xl">
+      <div className="divide-y divide-white/10 overflow-hidden rounded-[16px] bg-white/6 ring-1 ring-white/12 backdrop-blur-xl">
         {faqs.map((f) => (
           <details key={f.q} className="group p-6">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
@@ -430,7 +421,7 @@ function DemoForm() {
 
   const inputClass =
     "appearance-none bg-black/35 text-white placeholder:text-white/35 ring-1 ring-white/12 outline-none " +
-    "focus:ring-2 focus:ring-sky-300/45 w-full rounded-2xl px-4 py-3 text-sm";
+    "focus:ring-2 focus:ring-sky-300/45 w-full rounded-[12px] px-4 py-3 text-sm";
 
   return (
     <form onSubmit={onSubmit} className="mt-5 space-y-3">
@@ -529,16 +520,28 @@ export default function GolemAILanding() {
     <div className="min-h-screen bg-[#06070B] text-white">
       {/* Background */}
       <div className="pointer-events-none fixed inset-0">
+        <style>{`
+          /* Seamless scan: animate background-position so the loop never “snaps” */
+          @keyframes qScan {
+            from { background-position: 0px -260px; }
+            to   { background-position: 0px 260px; }
+          }
+          .q-scan {
+            background-image: linear-gradient(to bottom, transparent, rgba(16,185,129,0.03), transparent);
+            background-size: 100% 260px;
+            background-repeat: repeat-y;
+            animation: qScan 10s linear infinite;
+            will-change: background-position;
+          }
+        `}</style>
         <DotParticles reducedMotion={reducedMotion} />
         <QuantumGrid reducedMotion={reducedMotion} />
 
         {/* No purple. Only teal/cyan accents + black depth */}
-        <div className="absolute -left-40 -top-56 h-[620px] w-[620px] rounded-full bg-emerald-400/12 blur-3xl" />
-        <div className="absolute -right-44 top-10 h-[640px] w-[640px] rounded-full bg-sky-400/12 blur-3xl" />
-        <div className="absolute left-10 bottom-[-320px] h-[780px] w-[780px] rounded-full bg-black/85 blur-3xl" />
+        <div className="absolute -left-40 -top-56 h-[620px] w-[620px] rounded-[12px] bg-emerald-400/2 blur-3xl" />
+        <div className="absolute -right-44 top-10 h-[640px] w-[640px] rounded-[12px] bg-sky-400/2 blur-3xl" />
+        <div className="absolute left-10 bottom-[-320px] h-[780px] w-[780px] rounded-[12px] bg-black/85 blur-3xl" />
       </div>
-
-      <CursorOrb reducedMotion={reducedMotion} />
 
       {/* Header */}
       <header className="sticky top-0 z-50 bg-gradient-to-b from-black/70 via-black/35 to-black/0 backdrop-blur-xl">
@@ -577,9 +580,9 @@ export default function GolemAILanding() {
           <div className="grid items-center gap-10 lg:grid-cols-[1.1fr_0.9fr]">
             <div>
               <div className="flex flex-wrap items-center gap-3">
-                <Pill icon={Globe}>Built for modern commerce ops</Pill>
-                <Pill icon={Lock}>Secure by design</Pill>
-                <Pill icon={Blocks}>Audit-ready execution</Pill>
+                <DotPill>Built for modern commerce ops</DotPill>
+                <DotPill>Secure by design</DotPill>
+                <DotPill>Audit-ready execution</DotPill>
               </div>
 
               <motion.h1
@@ -613,11 +616,11 @@ export default function GolemAILanding() {
 
               <div className="mt-9 grid gap-4 sm:grid-cols-3">
                 {[
-                  { label: "Faster decisions", value: "Minutes" },
-                  { label: "Confidence gating", value: "Probabilistic" },
-                  { label: "Auditability", value: "End-to-end" },
+                  { label: "POs drafted", value: "Auto" },
+                  { label: "Alerts handled", value: "Instant" },
+                  { label: "Approvals + rollback", value: "Built-in" },
                 ].map((s) => (
-                  <div key={s.label} className="rounded-3xl bg-white/6 p-5 ring-1 ring-white/10 backdrop-blur-xl">
+                  <div key={s.label} className="rounded-[16px] bg-white/6 p-5 ring-1 ring-white/10 backdrop-blur-xl">
                     <div className="text-xs font-semibold text-white/55">{s.label}</div>
                     <div className="mt-2 text-2xl font-semibold text-white">{s.value}</div>
                   </div>
@@ -640,8 +643,7 @@ export default function GolemAILanding() {
         <section id="products" className="relative mx-auto max-w-6xl px-6 py-16">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-3 flex items-center justify-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                <Sparkles className="h-4 w-4 text-sky-200" />
+              <span className="inline-flex items-center rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
                 Products
               </span>
             </div>
@@ -656,16 +658,18 @@ export default function GolemAILanding() {
           <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
             {[
               {
-                title: "Digital Twin",
-                subtitle: "Enterprise Digital Twins",
-                icon: Cpu,
+                badge: "1",
+                title: "Co-Pilot",
+                subtitle: "Ops Command Center",
+                icon: Workflow,
                 bullets: [
-                  "Model inventory, warehousing, and fulfillment in real time",
-                  "Run what-if simulations inspired by big-tech twin programs",
-                  "Stress-test reorder policies and supply risk before changes go live",
+                  "Daily brief: top risks and top actions",
+                  "Guided workflows and operator-in-the-loop approvals",
+                  "Ask, simulate, and execute without leaving your stack",
                 ],
               },
               {
+                badge: "2",
                 title: "Digital Worker",
                 subtitle: "Inventory + Supply Chain Worker",
                 icon: Brain,
@@ -676,13 +680,14 @@ export default function GolemAILanding() {
                 ],
               },
               {
-                title: "Co-Pilot",
-                subtitle: "Ops Command Center",
-                icon: Workflow,
+                badge: "3",
+                title: "Digital Twin",
+                subtitle: "Enterprise Digital Twins",
+                icon: Cpu,
                 bullets: [
-                  "Daily brief: top risks and top actions",
-                  "Guided workflows and operator-in-the-loop approvals",
-                  "Ask, simulate, and execute without leaving your stack",
+                  "Model inventory, warehousing, and fulfillment in real time",
+                  "Run what-if simulations inspired by big-tech twin programs",
+                  "Stress-test reorder policies and supply risk before changes go live",
                 ],
               },
             ].map((p, idx) => (
@@ -692,29 +697,31 @@ export default function GolemAILanding() {
                 whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
                 transition={{ duration: 0.55, delay: idx * 0.05 }}
-                className="group relative overflow-hidden rounded-3xl bg-white/6 p-7 ring-1 ring-white/12 backdrop-blur-xl"
+                className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/12 backdrop-blur-xl"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.18),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+                {/* Framer-like multi-frame edges */}
+                <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-white/10" />
+                <div className="pointer-events-none absolute inset-3 rounded-[12px] ring-1 ring-white/10 opacity-60" />
                 <div className="relative z-10">
                   <div className="flex items-start justify-between gap-4">
                     <div>
-                      <div className="inline-flex items-center gap-2 rounded-full bg-white/8 px-3 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/12">
-                        <Blocks className="h-4 w-4 text-sky-200" />
-                        Product
+                      <div className="inline-flex items-center rounded-[12px] bg-white/6 px-3 py-1 text-[11px] font-semibold text-emerald-200 ring-1 ring-white/10">
+                        {p.badge}
                       </div>
                       <h3 className="mt-3 text-2xl font-semibold">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200 drop-shadow-[0_0_16px_rgba(251,191,36,0.10)]">
                           {p.title}
                         </span>
                       </h3>
                       <p className="mt-1 text-sm text-white/70">{p.subtitle}</p>
                     </div>
-                    </div>
+                  </div>
 
                   <ul className="mt-6 space-y-3">
                     {p.bullets.map((b) => (
                       <li key={b} className="flex gap-3 text-sm text-white/78">
-                        <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-emerald-300" />
+                        <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-[12px] bg-sky-200/95 shadow-[0_0_0_6px_rgba(56,189,248,0.10),0_0_22px_rgba(56,189,248,0.35)]" />
                         <span>{b}</span>
                       </li>
                     ))}
@@ -729,8 +736,7 @@ export default function GolemAILanding() {
         <section id="how" className="relative mx-auto max-w-6xl px-6 py-16">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-3 flex items-center justify-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                <Sparkles className="h-4 w-4 text-sky-200" />
+              <span className="inline-flex items-center rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
                 How it works
               </span>
             </div>
@@ -748,14 +754,17 @@ export default function GolemAILanding() {
               { icon: Cpu, title: "Digital Twin Sandbox", desc: "Test policies and risk before changes go live." },
               { icon: Lock, title: "Audit + Control", desc: "Evidence, confidence gating, abort conditions, rollback windows." },
             ].map((c) => (
-              <div key={c.title} className="relative overflow-hidden rounded-3xl bg-white/6 p-7 ring-1 ring-white/12 backdrop-blur-xl">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.18),transparent_60%)] opacity-60" />
+              <div key={c.title} className="relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/12 backdrop-blur-xl">
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.12),transparent_60%)] opacity-60" />
+                {/* Framer-like multi-frame edges */}
+                <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-white/10" />
+                <div className="pointer-events-none absolute inset-3 rounded-[12px] ring-1 ring-white/10 opacity-60" />
                 <div className="relative z-10">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/10 ring-1 ring-white/15">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-white/10 ring-1 ring-white/15">
                     <c.icon className="h-6 w-6 text-emerald-200" />
                   </div>
                   <h3 className="mt-4 text-lg font-semibold">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200">{c.title}</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-sky-100">{c.title}</span>
                   </h3>
                   <p className="mt-2 text-sm leading-relaxed text-white/70">{c.desc}</p>
                 </div>
@@ -768,8 +777,7 @@ export default function GolemAILanding() {
         <section id="faq" className="relative mx-auto max-w-6xl px-6 py-16">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-3 flex items-center justify-center">
-              <span className="inline-flex items-center gap-2 rounded-full bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                <Sparkles className="h-4 w-4 text-sky-200" />
+              <span className="inline-flex items-center rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
                 FAQ
               </span>
             </div>
@@ -784,24 +792,23 @@ export default function GolemAILanding() {
 
         {/* CTA */}
         <section id="cta" className="relative mx-auto max-w-6xl px-6 pb-24 pt-10">
-          <div className="relative overflow-hidden rounded-3xl bg-white/6 p-10 ring-1 ring-white/12 backdrop-blur-xl">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.20),transparent_55%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.20),transparent_55%)]" />
+          <div className="relative overflow-hidden rounded-[16px] bg-white/6 p-10 ring-1 ring-white/12 backdrop-blur-xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(16,185,129,0.06),transparent_55%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_30%,rgba(56,189,248,0.09),transparent_55%)]" />
             <div className="relative z-10 grid gap-8 lg:grid-cols-[1.2fr_0.8fr] lg:items-center">
               <div>
-                <h3 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">Ready to deploy a Digital Worker and Digital Twin?</h3>
+                <h3 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-emerald-200 drop-shadow-[0_0_18px_rgba(56,189,248,0.18)]">
+                    Ready to deploy a Digital Worker and Digital Twin?
+                  </span>
+                </h3>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70">
                   We’re onboarding beta partners. If you run inventory and supply chain operations, we’ll help you connect, simulate,
                   and automate in weeks.
                 </p>
-                <div className="mt-6 flex flex-wrap items-center gap-3">
-                  <Pill icon={Lock}>Evidence-grounded answers</Pill>
-                  <Pill icon={Workflow}>Approval and rollback</Pill>
-                  <Pill icon={Blocks}>Audit layer</Pill>
-                </div>
               </div>
 
-              <div className="rounded-3xl bg-black/35 p-6 ring-1 ring-white/12 backdrop-blur-xl">
+              <div className="rounded-[16px] bg-black/35 p-6 ring-1 ring-white/12 backdrop-blur-xl">
                 <div className="text-sm font-semibold text-white">Request a demo</div>
                 <p className="mt-1 text-xs text-white/55">Leave details and we’ll reach out.</p>
                 <DemoForm />
@@ -815,3 +822,4 @@ export default function GolemAILanding() {
     </div>
   );
 }
+
