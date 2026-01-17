@@ -278,7 +278,7 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
       { k: "query", v: "Stockout risk this week?" },
       { k: "golem", v: "Three SKUs at risk today." },
       { k: "query", v: "Next best action?" },
-      { k: "golem", v: "Expedite PO 1842, rebalance safety stock." },
+      { k: "golem", v: "Expedite PO 1842." },
       { k: "query", v: "Lead time stable?" },
       { k: "golem", v: "Supplier B delayed four days." },
     ],
