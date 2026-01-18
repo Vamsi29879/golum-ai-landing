@@ -6,7 +6,8 @@ import type { LucideIcon } from "lucide-react";
 import {
   ArrowRight,
   Blocks,
-  Brain,  ChevronDown,
+  Brain,
+  ChevronDown,
   Cpu,
   Database,
   Lock,
@@ -157,10 +158,7 @@ function QuantumGrid({ reducedMotion }: { reducedMotion: boolean }) {
       <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:72px_72px] opacity-25" />
 
       {!reducedMotion ? (
-        <div
-          className="absolute inset-0 q-scan will-change-transform"
-          style={{ mixBlendMode: "screen" as any }}
-        />
+        <div className="absolute inset-0 q-scan will-change-transform" style={{ mixBlendMode: "screen" as any }} />
       ) : null}
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(0,0,0,0.55))]" />
@@ -299,7 +297,9 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
         <div className="flex items-center gap-2 text-xs font-semibold text-white/70">
           <div className="h-2 w-2 rounded-[12px] bg-emerald-300" />
           <span className="inline-flex items-baseline gap-2">
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-emerald-200">Golem</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-emerald-200">
+              Golem
+            </span>
             <span className="text-white/70">Terminal</span>
           </span>
         </div>
@@ -359,6 +359,111 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
         transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}
         style={{ mixBlendMode: "screen" as any }}
       />
+    </div>
+  );
+}
+
+function HowItWorksFlow({ reducedMotion }: { reducedMotion: boolean }) {
+  const steps = useMemo(
+    () => [
+      {
+        title: "Connect",
+        tag: "APIs + Connectors",
+        icon: Blocks,
+        desc: "Plug into POS, inventory, e-commerce, and compliance systems. Golem maps your data into a live operational graph.",
+      },
+      {
+        title: "Understand",
+        tag: "Grounded Insights",
+        icon: Sparkles,
+        desc: "Golem reads sales, demand signals, product velocity, and customer behavior — then explains what matters in plain English.",
+      },
+      {
+        title: "Simulate",
+        tag: "Scenario Engine",
+        icon: Cpu,
+        desc: "Run a Digital Twin sandbox to test promos, reorder policies, labor schedules, and wholesale decisions before you commit.",
+      },
+      {
+        title: "Execute",
+        tag: "Closed-Loop Ops",
+        icon: Workflow,
+        desc: "Approve actions and let Golem automate safe, reversible moves with audit logs, confidence thresholds, and rollback.",
+      },
+      {
+        title: "Prove",
+        tag: "Continuous Optimization",
+        icon: Lock,
+        desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered.",
+      },
+    ],
+    []
+  );
+
+  return (
+    <div className="mx-auto mt-12 max-w-6xl">
+      <div className="relative">
+        {/* center line */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-white/12 to-transparent md:block"
+        />
+
+        <div className="space-y-6">
+          {steps.map((s, idx) => {
+            const isLeft = idx % 2 === 0;
+
+            const Card = (
+              <motion.div
+                initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.55, delay: idx * 0.03 }}
+                className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+
+                <div className="relative z-10">
+                  <div className="flex items-start gap-4">
+                    <div>
+                      <div className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-3 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/10">
+                        {s.tag}
+                      </div>
+                      <h3 className="mt-3 text-xl font-semibold">
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-sky-100">
+                          {s.title}
+                        </span>
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-white/70">{s.desc}</p>
+                    </div>
+</div>
+                </div>
+              </motion.div>
+            );
+
+            return (
+              <div
+                key={s.title}
+                className="grid items-stretch gap-6 md:grid-cols-[1fr_auto_1fr] md:gap-10"
+              >
+                {/* left */}
+                <div className={cx(!isLeft && "md:opacity-0 md:pointer-events-none")}>{isLeft ? Card : null}</div>
+
+                {/* center node */}
+                <div className="relative hidden items-center justify-center md:flex">
+                  <div className="h-3 w-3 rounded-[12px] bg-emerald-300 shadow-[0_0_0_10px_rgba(16,185,129,0.10),0_0_28px_rgba(56,189,248,0.25)]" />
+                </div>
+
+                {/* right */}
+                <div className={cx(isLeft && "md:opacity-0 md:pointer-events-none")}>{!isLeft ? Card : null}</div>
+
+                {/* mobile card */}
+                <div className="md:hidden">{Card}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
@@ -474,7 +579,7 @@ function DemoForm() {
         />
       </div>
 
-      <PrimaryButton type="submit" className={cx("w-full", isBusy && "opacity-70")}> 
+      <PrimaryButton type="submit" className={cx("w-full", isBusy && "opacity-70")}>
         {status === "loading" ? "Submitting…" : status === "success" ? "Request received ✓" : "Submit"}
       </PrimaryButton>
 
@@ -658,7 +763,6 @@ export default function GolemAILanding() {
           <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
             {[
               {
-                badge: "1",
                 title: "Co-Pilot",
                 subtitle: "Ops Command Center",
                 icon: Workflow,
@@ -669,7 +773,6 @@ export default function GolemAILanding() {
                 ],
               },
               {
-                badge: "2",
                 title: "Digital Worker",
                 subtitle: "Inventory + Supply Chain Worker",
                 icon: Brain,
@@ -680,7 +783,6 @@ export default function GolemAILanding() {
                 ],
               },
               {
-                badge: "3",
                 title: "Digital Twin",
                 subtitle: "Enterprise Digital Twins",
                 icon: Cpu,
@@ -690,45 +792,45 @@ export default function GolemAILanding() {
                   "Stress-test reorder policies and supply risk before changes go live",
                 ],
               },
-            ].map((p, idx) => (
-              <motion.div
-                key={p.title}
-                initial={reducedMotion ? false : { opacity: 0, y: 16 }}
-                whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.55, delay: idx * 0.05 }}
-                className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
-              >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
-                {/* Framer-like multi-frame edges */}
-                <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-white/10" />
-                <div className="pointer-events-none absolute inset-3 rounded-[12px] ring-1 ring-white/10 opacity-60" />
-                <div className="relative z-10">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <div className="inline-flex items-center rounded-[12px] bg-white/6 px-3 py-1 text-[11px] font-semibold text-emerald-200 ring-1 ring-white/10">
-                        {p.badge}
-                      </div>
-                      <h3 className="mt-3 text-2xl font-semibold">
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200 drop-shadow-[0_0_16px_rgba(251,191,36,0.10)]">
-                          {p.title}
-                        </span>
-                      </h3>
-                      <p className="mt-1 text-sm text-white/70">{p.subtitle}</p>
-                    </div>
-                  </div>
+            ].map((p, idx) => {
+              return (
+                <motion.div
+                  key={p.title}
+                  initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                  whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-80px" }}
+                  transition={{ duration: 0.55, delay: idx * 0.05 }}
+                  className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+                  {/* Framer-like multi-frame edges */}
+                  <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-white/10" />
+                  <div className="pointer-events-none absolute inset-3 rounded-[12px] ring-1 ring-white/10 opacity-60" />
 
-                  <ul className="mt-6 space-y-3">
-                    {p.bullets.map((b) => (
-                      <li key={b} className="flex gap-3 text-sm text-white/78">
-                        <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-[12px] bg-sky-200/95 shadow-[0_0_0_6px_rgba(56,189,248,0.10),0_0_22px_rgba(56,189,248,0.35)]" />
-                        <span>{b}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </motion.div>
-            ))}
+                  <div className="relative z-10">
+                    <div className="flex items-start gap-4">
+                      <div>
+                        <h3 className="text-2xl font-semibold">
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200 drop-shadow-[0_0_16px_rgba(251,191,36,0.10)]">
+                            {p.title}
+                          </span>
+                        </h3>
+                        <p className="mt-1 text-sm text-white/70">{p.subtitle}</p>
+                      </div>
+</div>
+
+                    <ul className="mt-6 space-y-3">
+                      {p.bullets.map((b) => (
+                        <li key={b} className="flex gap-3 text-sm text-white/78">
+                          <span className="mt-1 h-2.5 w-2.5 shrink-0 rounded-[12px] bg-sky-200/95 shadow-[0_0_0_6px_rgba(56,189,248,0.10),0_0_22px_rgba(56,189,248,0.35)]" />
+                          <span>{b}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </section>
 
@@ -748,29 +850,7 @@ export default function GolemAILanding() {
             </p>
           </div>
 
-          <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
-            {[
-              { icon: Database, title: "Operational Graph", desc: "Normalize ERP, WMS, and inventory data into one source of truth." },
-              { icon: Cpu, title: "Digital Twin Sandbox", desc: "Test policies and risk before changes go live." },
-              { icon: Lock, title: "Audit + Control", desc: "Evidence, confidence gating, abort conditions, rollback windows." },
-            ].map((c) => (
-              <div key={c.title} className="relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.12),transparent_60%)] opacity-60" />
-                {/* Framer-like multi-frame edges */}
-                <div className="pointer-events-none absolute inset-0 rounded-[16px] ring-1 ring-white/10" />
-                <div className="pointer-events-none absolute inset-3 rounded-[12px] ring-1 ring-white/10 opacity-60" />
-                <div className="relative z-10">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-[12px] bg-white/10 ring-1 ring-white/15">
-                    <c.icon className="h-6 w-6 text-emerald-200" />
-                  </div>
-                  <h3 className="mt-4 text-lg font-semibold">
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-sky-100">{c.title}</span>
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/70">{c.desc}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <HowItWorksFlow reducedMotion={reducedMotion} />
         </section>
 
         {/* FAQ */}
@@ -781,7 +861,9 @@ export default function GolemAILanding() {
                 FAQ
               </span>
             </div>
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">Everything you need to know</h2>
+            <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+              Everything you need to know
+            </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
               Built for teams who want an impressive, modern ops layer, not another dashboard.
             </p>
@@ -803,8 +885,8 @@ export default function GolemAILanding() {
                   </span>
                 </h3>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70">
-                  We’re onboarding beta partners. If you run inventory and supply chain operations, we’ll help you connect, simulate,
-                  and automate in weeks.
+                  We’re onboarding beta partners. If you run inventory and supply chain operations, we’ll help you connect,
+                  simulate, and automate in weeks.
                 </p>
               </div>
 
@@ -822,4 +904,5 @@ export default function GolemAILanding() {
     </div>
   );
 }
+
 
