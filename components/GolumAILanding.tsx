@@ -1,19 +1,8 @@
 "use client";
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { motion, AnimatePresence, useMotionValue } from "framer-motion";
-import type { LucideIcon } from "lucide-react";
-import {
-  ArrowRight,
-  Blocks,
-  Brain,
-  ChevronDown,
-  Cpu,
-  Database,
-  Lock,
-  Sparkles,
-  Workflow,
-} from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight, ChevronDown, Workflow, Brain, Cpu } from "lucide-react";
 
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
 
@@ -21,11 +10,14 @@ function BrandMark({ className = "" }: { className?: string }) {
   // Gradient wordmark: teal/cyan "Golem" + golden "AI"
   return (
     <span className={cx("inline-flex items-baseline", className)}>
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-emerald-200 to-sky-100 drop-shadow-[0_0_18px_rgba(56,189,248,0.12)]">
-        Golem
+      <span className="inline-flex items-baseline">
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-100 drop-shadow-[0_0_26px_rgba(34,211,238,0.45)]">G</span>
+        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-emerald-200 to-sky-100 drop-shadow-[0_0_18px_rgba(56,189,248,0.12)]">
+          olem
+        </span>
       </span>
       <span className="inline-block w-1" aria-hidden />
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-200 to-amber-100 drop-shadow-[0_0_18px_rgba(251,191,36,0.18)]">
+      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-200 to-amber-100 drop-shadow-[0_0_18px_rgba(251,191,36,0.16)]">
         AI
       </span>
     </span>
@@ -155,67 +147,13 @@ function QuantumGrid({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <div className="absolute inset-0 pointer-events-none" aria-hidden>
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_35%,rgba(56,189,248,0.05),transparent_55%)]" />
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.055)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:72px_72px] opacity-25" />
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.085)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.08)_1px,transparent_1px)] bg-[size:64px_64px] opacity-40" />
 
       {!reducedMotion ? (
         <div className="absolute inset-0 q-scan will-change-transform" style={{ mixBlendMode: "screen" as any }} />
       ) : null}
 
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_40%,rgba(0,0,0,0.55))]" />
-    </div>
-  );
-}
-
-/**
- * Cursor orb (throttled with RAF so it follows the cursor with no visible lag)
- */
-function CursorOrb({ reducedMotion }: { reducedMotion: boolean }) {
-  const x = useMotionValue(-100);
-  const y = useMotionValue(-100);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    let raf = 0;
-    let px = 0;
-    let py = 0;
-
-    const onMove = (e: PointerEvent) => {
-      px = e.clientX;
-      py = e.clientY;
-      if (raf) return;
-      raf = requestAnimationFrame(() => {
-        x.set(px);
-        y.set(py);
-        raf = 0;
-      });
-    };
-
-    window.addEventListener("pointermove", onMove, { passive: true });
-    return () => {
-      window.removeEventListener("pointermove", onMove);
-      if (raf) cancelAnimationFrame(raf);
-    };
-  }, [reducedMotion, x, y]);
-
-  if (reducedMotion) return null;
-
-  return (
-    <motion.div
-      aria-hidden
-      className="pointer-events-none fixed left-0 top-0 z-[60] -translate-x-1/2 -translate-y-1/2"
-      style={{ x, y }}
-    >
-      <div className="h-2.5 w-2.5 rounded-[12px] bg-sky-200/95 shadow-[0_0_0_7px_rgba(56,189,248,0.10),0_0_32px_rgba(56,189,248,0.35)]" />
-    </motion.div>
-  );
-}
-
-function Pill({ children, icon: Icon }: { children: React.ReactNode; icon?: LucideIcon }) {
-  return (
-    <div className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-4 py-2 text-xs text-white/80 ring-1 ring-white/10">
-      {Icon ? <Icon className="h-4 w-4 text-emerald-300" /> : null}
-      <span>{children}</span>
     </div>
   );
 }
@@ -311,9 +249,9 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
             <motion.div
               key={index}
               layout="position"
-              initial={reducedMotion ? false : { opacity: 0, y: 4 }}
-              animate={reducedMotion ? {} : { opacity: 1, y: 0 }}
-              exit={reducedMotion ? {} : { opacity: 0, y: -4 }}
+              initial={reducedMotion ? false : { opacity: 0 }}
+              animate={reducedMotion ? {} : { opacity: 1 }}
+              exit={reducedMotion ? {} : { opacity: 0 }}
               transition={{ type: "tween", duration: 0.22, ease: "easeOut" }}
               className="leading-relaxed will-change-transform transform-gpu"
             >
@@ -350,50 +288,45 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
         </div>
       </div>
 
-      {/* scanline */}
+      {/* scanline (no vertical motion) */}
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 h-20 bg-[linear-gradient(to_bottom,rgba(56,189,248,0.0),rgba(56,189,248,0.08),rgba(56,189,248,0.0))]"
-        initial={{ y: "-40%" }}
-        animate={reducedMotion ? {} : { y: ["-40%", "120%", "-40%"] }}
-        transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut" }}
+        initial={{ opacity: 0.22 }}
+        animate={reducedMotion ? {} : { opacity: [0.16, 0.32, 0.16] }}
+        transition={{ duration: 3.6, repeat: Infinity, ease: "easeInOut" }}
         style={{ mixBlendMode: "screen" as any }}
       />
     </div>
   );
 }
 
-function HowItWorksFlow({ reducedMotion }: { reducedMotion: boolean }) {
+function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
   const steps = useMemo(
     () => [
       {
-        title: "Connect",
         tag: "APIs + Connectors",
-        icon: Blocks,
+        title: "Connect",
         desc: "Plug into POS, inventory, e-commerce, and compliance systems. Golem maps your data into a live operational graph.",
       },
       {
-        title: "Understand",
         tag: "Grounded Insights",
-        icon: Sparkles,
-        desc: "Golem reads sales, demand signals, product velocity, and customer behavior — then explains what matters in plain English.",
+        title: "Understand",
+        desc: "Golem reads sales, demand signals, product velocity, and customer behavior, then explains what matters in plain English.",
       },
       {
-        title: "Simulate",
         tag: "Scenario Engine",
-        icon: Cpu,
+        title: "Simulate",
         desc: "Run a Digital Twin sandbox to test promos, reorder policies, labor schedules, and wholesale decisions before you commit.",
       },
       {
-        title: "Execute",
         tag: "Closed-Loop Ops",
-        icon: Workflow,
+        title: "Execute",
         desc: "Approve actions and let Golem automate safe, reversible moves with audit logs, confidence thresholds, and rollback.",
       },
       {
-        title: "Prove",
         tag: "Continuous Optimization",
-        icon: Lock,
+        title: "Prove",
         desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered.",
       },
     ],
@@ -401,32 +334,59 @@ function HowItWorksFlow({ reducedMotion }: { reducedMotion: boolean }) {
   );
 
   return (
-    <div className="mx-auto mt-12 max-w-6xl">
-      <div className="relative">
-        {/* center line */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-white/12 to-transparent md:block"
-        />
+    <section id="how" className="relative mx-auto max-w-6xl px-6 py-16">
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="mb-3 flex items-center justify-center">
+          <span className="inline-flex items-center rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
+            How it works
+          </span>
+        </div>
 
-        <div className="space-y-6">
-          {steps.map((s, idx) => {
-            const isLeft = idx % 2 === 0;
+        <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          Closed-loop intelligence that is grounded and auditable
+        </h2>
+        <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
+          Connect, understand, simulate, execute, prove. Everything can be approved, audited, and rolled back.
+        </p>
+      </div>
 
-            const Card = (
+      <div className="relative mx-auto mt-12 max-w-6xl">
+        {/* center line (desktop) */}
+        <div className="pointer-events-none absolute left-1/2 top-0 hidden h-full w-px -translate-x-1/2 bg-white/10 lg:block" />
+
+        <div className="space-y-7">
+          {steps.map((s, i) => {
+            const isLeft = i % 2 === 0;
+            return (
               <motion.div
-                initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+                key={s.title}
+                initial={reducedMotion ? false : { opacity: 0, y: 14 }}
                 whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.55, delay: idx * 0.03 }}
-                className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
+                transition={{ duration: 0.5, delay: i * 0.04 }}
+                className="relative grid gap-6 lg:grid-cols-[1fr_72px_1fr] lg:items-start"
               >
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+                {/* spacer (desktop) */}
+                <div className={cx("hidden lg:block", isLeft ? "lg:col-start-3" : "lg:col-start-1")} />
 
-                <div className="relative z-10">
-                  <div className="flex items-start gap-4">
-                    <div>
-                      <div className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-3 py-1 text-[11px] font-semibold text-white/70 ring-1 ring-white/10">
+                {/* center column spacer (keeps the timeline gutter width) */}
+                <div className="hidden lg:block lg:col-start-2" aria-hidden />
+
+                {/* card (same feel as product cards, no icons, no extra outer frame divs) */}
+                <div className={cx("relative", isLeft ? "lg:col-start-1" : "lg:col-start-3")}>
+                  <div
+                    className={cx(
+                      "pointer-events-none absolute top-1/2 hidden -translate-y-1/2 lg:block",
+                      isLeft ? "right-[-60px] translate-x-1/2" : "left-[-60px] -translate-x-1/2"
+                    )}
+                    aria-hidden
+                  >
+                    <div className="h-3 w-3 rounded-[12px] bg-emerald-300 shadow-[0_0_0_10px_rgba(16,185,129,0.10),0_0_30px_rgba(16,185,129,0.22)]" />
+                  </div>
+                  <div className="group relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl">
+                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(56,189,248,0.12),transparent_60%)] opacity-0 transition group-hover:opacity-100" />
+                    <div className="relative z-10">
+                      <div className="inline-flex items-center rounded-[12px] bg-white/6 px-3 py-1 text-[11px] font-semibold text-white/65 ring-1 ring-white/10">
                         {s.tag}
                       </div>
                       <h3 className="mt-3 text-xl font-semibold">
@@ -436,35 +396,104 @@ function HowItWorksFlow({ reducedMotion }: { reducedMotion: boolean }) {
                       </h3>
                       <p className="mt-2 text-sm leading-relaxed text-white/70">{s.desc}</p>
                     </div>
-</div>
+                  </div>
                 </div>
               </motion.div>
-            );
-
-            return (
-              <div
-                key={s.title}
-                className="grid items-stretch gap-6 md:grid-cols-[1fr_auto_1fr] md:gap-10"
-              >
-                {/* left */}
-                <div className={cx(!isLeft && "md:opacity-0 md:pointer-events-none")}>{isLeft ? Card : null}</div>
-
-                {/* center node */}
-                <div className="relative hidden items-center justify-center md:flex">
-                  <div className="h-3 w-3 rounded-[12px] bg-emerald-300 shadow-[0_0_0_10px_rgba(16,185,129,0.10),0_0_28px_rgba(56,189,248,0.25)]" />
-                </div>
-
-                {/* right */}
-                <div className={cx(isLeft && "md:opacity-0 md:pointer-events-none")}>{!isLeft ? Card : null}</div>
-
-                {/* mobile card */}
-                <div className="md:hidden">{Card}</div>
-              </div>
             );
           })}
         </div>
       </div>
-    </div>
+    </section>
+  );
+}
+
+function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
+  const items = useMemo(
+    () => [
+      {
+        title: "Operational Graph",
+        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning.",
+      },
+      {
+        title: "Digital Twin Sandbox",
+        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions.",
+      },
+      {
+        title: "Audit + Control",
+        desc: "Every recommendation includes evidence, confidence, abort conditions, and rollback windows. Blockchain-ready ledger if needed.",
+      },
+    ],
+    []
+  );
+
+  return (
+    <section id="why" className="relative mx-auto max-w-6xl px-6 py-16">
+      <div className="absolute inset-0 -z-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(16,185,129,0.10),transparent_58%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(56,189,248,0.10),transparent_62%)]" />
+      </div>
+
+      <div className="mx-auto max-w-3xl text-center">
+        <div className="mb-3 flex items-center justify-center">
+          <span className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
+            Why Golem
+          </span>
+        </div>
+
+        <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
+          From dashboards to survivability: your operations become a living organism
+        </h2>
+        <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
+          We combine AI, simulation, and blockchain-ready auditability to reduce stockouts, protect margins, and compress
+          operational risk.
+        </p>
+      </div>
+
+      <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
+        {items.map((c, idx) => (
+          <motion.div
+            key={c.title}
+            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
+            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.55, delay: idx * 0.05 }}
+            className="relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
+          >
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.10),transparent_60%)] opacity-60" />
+            <div className="relative z-10">
+              <h3 className="mt-1 text-lg font-semibold">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-sky-100">
+                  {c.title}
+                </span>
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-white/70">{c.desc}</p>
+            </div>
+          </motion.div>
+        ))}
+      </div>
+
+      <div className="mx-auto mt-6 max-w-6xl">
+        <div className="relative overflow-hidden rounded-[16px] bg-white/6 p-8 ring-1 ring-white/10 backdrop-blur-xl">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_30%,rgba(56,189,248,0.10),transparent_60%)]" />
+          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-xl font-semibold text-white">Designed for trust, compliance, and speed</h3>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">
+                Whether you need an immutable audit trail or simply enterprise-grade tracking, Golem’s action layer is
+                built for secure execution in regulated industries.
+              </p>
+            </div>
+
+            <a
+              href="#cta"
+              className="inline-flex items-center justify-center gap-2 rounded-[12px] bg-white/8 px-5 py-2.5 text-sm font-semibold text-white/85 ring-1 ring-white/12 hover:bg-white/12 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
+            >
+              Talk to us <ArrowRight className="h-4 w-4" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -817,7 +846,7 @@ export default function GolemAILanding() {
                         </h3>
                         <p className="mt-1 text-sm text-white/70">{p.subtitle}</p>
                       </div>
-</div>
+                    </div>
 
                     <ul className="mt-6 space-y-3">
                       {p.bullets.map((b) => (
@@ -834,117 +863,10 @@ export default function GolemAILanding() {
           </div>
         </section>
 
-        {/* How it works */}
-        <section id="how" className="relative mx-auto max-w-6xl px-6 py-16">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="mb-3 flex items-center justify-center">
-              <span className="inline-flex items-center rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">
-                How it works
-              </span>
-            </div>
-            <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-              Closed-loop intelligence that is grounded and auditable
-            </h2>
-            <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-              Connect, understand, simulate, execute, prove. Everything can be approved, audited, and rolled back.
-            </p>
-          </div>
+        <HowItWorksSection reducedMotion={reducedMotion} />
 
-          <HowItWorksFlow reducedMotion={reducedMotion} />
-        </section>
+        <WhyGolemSection reducedMotion={reducedMotion} />
 
-        function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
-  const cards = useMemo(
-    () => [
-      {
-        title: "Operational Graph",
-        icon: Database,
-        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning.",
-      },
-      {
-        title: "Digital Twin Sandbox",
-        icon: Cpu,
-        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions.",
-      },
-      {
-        title: "Audit + Control",
-        icon: Lock,
-        desc: "Every recommendation includes evidence, confidence, abort conditions, and rollback windows. Blockchain-ready ledger if needed.",
-      },
-    ],
-    []
-  );
-
-  return (
-    <section id="why" className="relative mx-auto max-w-6xl px-6 py-16">
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_20%,rgba(16,185,129,0.10),transparent_58%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_60%,rgba(56,189,248,0.10),transparent_62%)]" />
-      </div>
-
-      <div className="mx-auto max-w-3xl text-center">
-        <div className="mb-3 flex items-center justify-center">
-          <span className="inline-flex items-center gap-2 rounded-[12px] bg-white/6 px-4 py-2 text-xs font-semibold text-white/75 ring-1 ring-white/10">Why Golem
-          </span>
-        </div>
-
-        <h2 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
-          From dashboards to survivability: your operations become a living organism
-        </h2>
-        <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-          We combine AI, simulation, and blockchain-ready auditability to reduce stockouts, protect margins, and compress
-          operational risk.
-        </p>
-      </div>
-
-      <div className="mx-auto mt-10 grid max-w-6xl gap-6 lg:grid-cols-3">
-        {cards.map((c, idx) => (
-          <motion.div
-            key={c.title}
-            initial={reducedMotion ? false : { opacity: 0, y: 16 }}
-            whileInView={reducedMotion ? {} : { opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.55, delay: idx * 0.05 }}
-            className="relative overflow-hidden rounded-[16px] bg-white/6 p-7 ring-1 ring-white/10 backdrop-blur-xl"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_10%,rgba(16,185,129,0.10),transparent_60%)] opacity-60" />
-
-            <div className="relative z-10">
-<h3 className="mt-4 text-lg font-semibold">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-sky-100">
-                  {c.title}
-                </span>
-              </h3>
-              <p className="mt-2 text-sm leading-relaxed text-white/70">{c.desc}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="mx-auto mt-6 max-w-6xl">
-        <div className="relative overflow-hidden rounded-[16px] bg-white/6 p-8 ring-1 ring-white/10 backdrop-blur-xl">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_30%,rgba(56,189,248,0.10),transparent_60%)]" />
-          <div className="relative z-10 flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
-            <div>
-              <h3 className="text-xl font-semibold text-white">Designed for trust, compliance, and speed</h3>
-              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-white/70">
-                Whether you need an immutable audit trail or simply enterprise-grade tracking, Golem’s action layer is
-                built for secure execution in regulated industries.
-              </p>
-            </div>
-
-            <a
-              href="#cta"
-              className="inline-flex items-center justify-center gap-2 rounded-[12px] bg-white/8 px-5 py-2.5 text-sm font-semibold text-white/85 ring-1 ring-white/12 hover:bg-white/12 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/20"
-            >
-              Talk to us <ArrowRight className="h-4 w-4" />
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
         {/* FAQ */}
         <section id="faq" className="relative mx-auto max-w-6xl px-6 py-16">
           <div className="mx-auto max-w-3xl text-center">
@@ -996,5 +918,4 @@ export default function GolemAILanding() {
     </div>
   );
 }
-
 
