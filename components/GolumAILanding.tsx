@@ -413,11 +413,11 @@ function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
     () => [
       {
         title: "Live Operational Graph / GPT",
-        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning. Leverage a real-time natural language engine that constantly talks to our context-protocol servers that sit atop Golem's federated live-learning models",
+        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning. Leverage a 'live' GPT that is informed in real-time & is powered by Golem's federated live-learning models.",
       },
       {
         title: "Digital Twin Sandbox",
-        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions. We are in the same race to superintelligence as everybody else. But what we are also after is 'expanding' artificial intelligence with the 'human' and 'socio' to solve your business' EPs (Explainability Pitfalls) and design. beyond abstract mathematics. Inherent in our system design are large learning models that expand with these seams.",
+        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions. We are in the same race to superintelligence as everybody else. But what we are also after is 'expanding' artificial intelligence with the 'human' and 'socio' to solve your business' EPs (Explainability Pitfalls) and design beyond abstract mathematics. Inherent in our system design are large learning models that expand with these seams.",
       },
       {
         title: "Audit + Control",
@@ -895,7 +895,7 @@ export default function GolemAILanding() {
               <div>
                 <h3 className="text-balance text-3xl font-semibold tracking-tight sm:text-4xl">
                   <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-emerald-200 drop-shadow-[0_0_18px_rgba(56,189,248,0.18)]">
-                    Ready to deploy a Digital Worker and manage Ops in english?
+                    Ready to deploy a Digital Worker and Digital Twin?
                   </span>
                 </h3>
                 <p className="mt-3 max-w-2xl text-sm leading-relaxed text-white/70">
