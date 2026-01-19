@@ -343,10 +343,11 @@ function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
         </div>
 
         <h2 className="text-balance text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-          Closed-loop intelligence that is grounded and auditable
+          Closed-loop intelligence. Grounded and auditable.
         </h2>
         <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-          Connect, understand, simulate, execute, prove. Everything can be approved, audited, and rolled back.
+          Connect, understand, simulate, execute, prove. <br/> 
+          Everything can be approved, audited, and rolled back.
         </p>
       </div>
 
