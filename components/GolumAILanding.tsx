@@ -307,17 +307,17 @@ function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
       {
         tag: "APIs + Connectors",
         title: "Connect",
-        desc: "Plug into POS, inventory, e-commerce, and compliance systems. Golem maps your data into a live operational graph + gives you the capability of leveraging a real-time natural language engine that constantly talks to our context-protocol servers that sit atop Golem's federated live-learning models.",
+        desc: "Plug into POS, inventory, e-commerce, and compliance systems. Golem maps your data into a live operational graph.",
       },
       {
         tag: "Grounded Insights",
         title: "Understand",
-        desc: "Golem reads sales, demand signals, product velocity, and customer behavior, then explains what matters in plain English. Reason supply chain and inventory management in natural language? Plus it'd be prescreptive, meaning a choice between n optimal routes, far from descriptive/static, and...technologically-possible? Yes.",
+        desc: "Golem reads sales, demand signals, product velocity, and customer behavior, then explains what matters in plain English.",
       },
       {
         tag: "Scenario Engine",
         title: "Simulate",
-        desc: "Run a Digital Twin sandbox to test promos, reorder policies, labor schedules, and wholesale decisions before you commit. We're in the race to superintelligence. But what we are also after is 'expanding' AI with the Yin (human) and Yang (socio) to solve your business' EP's (Explainability Pitfalls). Inherent in our system design is learning and expanding with these seams.",
+        desc: "Run a Digital Twin sandbox to test promos, reorder policies, labor schedules, and wholesale decisions before you commit.",
       },
       {
         tag: "Closed-Loop Ops",
@@ -327,7 +327,7 @@ function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
       {
         tag: "Continuous Optimization",
         title: "Prove",
-        desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered. A seamless design will tell you the wi-fi is weak. A seamful one will answer you 'where'. A seamful design (as opposed to existing 'seamless' designs AI systems suffer from) means Golem's AI is designed not to conceal, but expand upon its 'seams' to reveal blindspots and reduce information bloat.",
+        desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered.",
       },
     ],
     []
@@ -412,16 +412,16 @@ function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
   const items = useMemo(
     () => [
       {
-        title: "Operational Graph",
-        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning.",
+        title: "Live Operational Graph / GPT",
+        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning. Leverage a real-time natural language engine that constantly talks to our context-protocol servers that sit atop Golem's federated live-learning models",
       },
       {
         title: "Digital Twin Sandbox",
-        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions.",
+        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions. We are in the same race to superintelligence as everybody else. But what we are also after is 'expanding' artificial intelligence with the Yin (human) and Yang (socio) to solve your business' EP's (Explainability Pitfalls) beyond abstract mathematics. Inherent in our system design are large learning models that expand with these seams.",
       },
       {
         title: "Audit + Control",
-        desc: "Every recommendation includes evidence, confidence, abort conditions, and rollback windows. Blockchain-ready ledger if needed.",
+        desc: "Every recommendation includes evidence, confidence, abort conditions, and rollback windows. We also support Blockchain-ready ledgers. A seamless design will tell you the wi-fi is weak. A seamful one will answer you 'where'. A seamful design (as opposed to existing 'seamless' designs AI systems suffer from) means Golem's AI is designed not to conceal, but expand upon its 'seams' to reveal blindspots and reduce information bloat.",
       },
     ],
     []
