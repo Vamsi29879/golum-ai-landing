@@ -212,11 +212,11 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
   const lines = useMemo(
     () => [
       { k: "query", v: "Stockout risk this week?" },
-      { k: "golem", v: "Three SKUs at risk today." },
+      { k: "golem", v: "Three SKUs at risk today - [..]" },
       { k: "query", v: "Next best action?" },
-      { k: "golem", v: "Expedite PO 1842." },
+      { k: "golem", v: "Expedite PO 1842, [..]" },
       { k: "query", v: "Any delays today?" },
-      { k: "golem", v: "Supplier B delayed four days." },
+      { k: "golem", v: "Supplier B delayed four days [..]" },
     ],
     []
   );
