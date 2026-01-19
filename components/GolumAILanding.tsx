@@ -792,7 +792,7 @@ export default function GolemAILanding() {
             {[
               {
                 title: "Co-Pilot",
-                subtitle: "Ops Command Center",
+                subtitle: "The Control Room",
                 icon: Workflow,
                 bullets: [
                   "Daily brief: top risks and top actions",
