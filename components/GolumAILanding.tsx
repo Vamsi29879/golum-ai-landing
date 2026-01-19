@@ -413,7 +413,7 @@ function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
     () => [
       {
         title: "Live Operational Graph / GPT",
-        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning. Leverage a 'live' GPT that is informed in real-time & is powered by Golem's federated live-learning models.",
+        desc: "Your POS, inventory, e-com, and compliance data normalized into a single source of truth for reasoning. Leverage a 'live' GPT that is informed in real-time & is powered/trained by Golem's federated live-learning models.",
       },
       {
         title: "Digital Twin Sandbox",
