@@ -327,7 +327,7 @@ function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
       {
         tag: "Continuous Optimization",
         title: "Prove",
-        desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered. A seamless design will tell you the wi-fi is weak. A seamful one will answer you 'where'. A seamful design (as opposed to existing 'seamless' designs AI systems suffer from) means Golem's AI is designed not to conceal, but expand upon its 'seams' to reveal its blindspots and reduce information bloat.",
+        desc: "Measure outcomes and continuously learn. What works gets reinforced; what fails gets aborted and remembered. A seamless design will tell you the wi-fi is weak. A seamful one will answer you 'where'. A seamful design (as opposed to existing 'seamless' designs AI systems suffer from) means Golem's AI is designed not to conceal, but expand upon its 'seams' to reveal blindspots and reduce information bloat.",
       },
     ],
     []
