@@ -784,7 +784,7 @@ export default function GolemAILanding() {
               Three modules. One unified intelligence layer.
             </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-              Simulate reality with Digital Twin, execute with a Digital Worker, and steer everything with Co-Pilot.
+              Simulate reality with Digital Twin, execute with a Digital Worker, and manage your custom bizops agents with a co-pilot panel.
             </p>
           </div>
 
