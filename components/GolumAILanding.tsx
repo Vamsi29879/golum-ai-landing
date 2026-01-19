@@ -263,7 +263,7 @@ function AnimatedTerminal({ reducedMotion }: { reducedMotion: boolean }) {
                     : "bg-emerald-400/15 text-emerald-200 ring-emerald-300/20"
                 )}
               >
-                {lines[index].k === "query" ? "Ops Manager" : "Golem"}
+                {lines[index].k === "query" ? "Store Manager (user)" : "Golem"}
               </span>
               <span className="text-white/80">{lines[index].v}</span>
             </motion.div>
