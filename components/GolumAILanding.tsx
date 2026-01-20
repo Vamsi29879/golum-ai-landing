@@ -7,19 +7,16 @@ import { ArrowRight, ChevronDown, Workflow, Brain, Cpu } from "lucide-react";
 const cx = (...c: Array<string | false | null | undefined>) => c.filter(Boolean).join(" ");
 
 function BrandMark({ className = "" }: { className?: string }) {
-  // Gradient wordmark: teal/cyan "Golem" + golden "AI"
+  // Match the Products module title gradient (Co-Pilot / Digital Worker / Digital Twin)
   return (
-    <span className={cx("inline-flex items-baseline", className)}>
-      <span className="inline-flex items-baseline">
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-sky-200 to-cyan-100 drop-shadow-[0_0_26px_rgba(34,211,238,0.45)]">G</span>
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-emerald-200 to-sky-100 drop-shadow-[0_0_18px_rgba(56,189,248,0.12)]">
-          olem
-        </span>
-      </span>
-      <span className="inline-block w-1" aria-hidden />
-      <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-emerald-200 to-amber-100 drop-shadow-[0_0_18px_rgba(251,191,36,0.16)]">
-        AI
-      </span>
+    <span
+      className={cx(
+        "text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200",
+        "drop-shadow-[0_0_16px_rgba(251,191,36,0.10)]",
+        className
+      )}
+    >
+      GolemAI
     </span>
   );
 }
@@ -346,7 +343,7 @@ function HowItWorksSection({ reducedMotion }: { reducedMotion: boolean }) {
           Closed-loop intelligence. Grounded and auditable.
         </h2>
         <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-          Connect, understand, simulate, execute, prove. <br/> 
+          Connect, understand, simulate, execute, prove. <br />
           Everything can be approved, audited, and rolled back.
         </p>
       </div>
@@ -726,7 +723,9 @@ export default function GolemAILanding() {
                 transition={{ duration: 0.7 }}
                 className="mt-7 text-balance text-4xl font-semibold tracking-tight sm:text-6xl"
               >
-                Next-Gen Ops/Retail{" "} <span className="italic text-gray-500">Seed &rarr; Sale</span> in &ldquo;Natural Language ▶︎ •၊၊||၊|။||||။‌‌‌‌‌၊|•  powered by{" "} <BrandMark className="whitespace-nowrap" />
+                Next-Gen Ops/Retail{" "} <span className="italic text-gray-500">Seed → Sale</span> in “Natural
+                Language ▶︎ •၊၊||၊|။||||۔‌‌‌‌‌၊|• 0:10 powered by{" "}
+                <BrandMark className="whitespace-nowrap" />
               </motion.h1>
 
               <motion.p
@@ -735,7 +734,8 @@ export default function GolemAILanding() {
                 transition={{ duration: 0.7, delay: 0.08 }}
                 className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg"
               >
-                Golem is an AI operations layer. Our custom context protocols connect to your systems and help you sand-box/execute safe, evidence-grounded realities.
+                Golem is an AI operations layer. Our custom context protocols connect to your systems and help you
+                sand-box/execute safe, evidence-grounded realities.
               </motion.p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -785,7 +785,8 @@ export default function GolemAILanding() {
               Three modules. One unified intelligence layer.
             </h2>
             <p className="mt-4 text-pretty text-base leading-relaxed text-white/70 sm:text-lg">
-              Simulate reality with Digital Twin, execute with a Digital Worker that lives in your workflow, build a living operations system powered by an intel that evolves with your customer.
+              Simulate reality with Digital Twin, execute with a Digital Worker that lives in your workflow, build a
+              living operations system powered by an intel that evolves with your customer.
             </p>
           </div>
 
