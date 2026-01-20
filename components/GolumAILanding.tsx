@@ -414,7 +414,7 @@ function WhyGolemSection({ reducedMotion }: { reducedMotion: boolean }) {
       },
       {
         title: "Digital Twin Sandbox",
-        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions. We love the idea of superintelligence. But what we are also after, beyond abstract mathematics and formalism, is 'expanding' artificial intelligence with the 'human' and 'socio' of your business' design to solve EPs (Explainability Pitfalls). Inherent in our system design is a large learning model that expands with these seams.",
+        desc: "Simulate promos, reorders, and workflows before going live. Reduce exposure with reversible micro-actions. We are in the same race to superintelligence as everybody else. But what we are also after, beyond abstract math, is 'expanding' artificial intelligence with the 'human' and 'socio' of design to solve your business' EPs (Explainability Pitfalls). Inherent in our system design is a large learning model that expands with these seams.",
       },
       {
         title: "Audit + Control",
@@ -841,7 +841,7 @@ export default function GolemAILanding() {
                     <div className="flex items-start gap-4">
                       <div>
                         <h3 className="text-2xl font-semibold">
-                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 via-sky-200 to-amber-200 drop-shadow-[0_0_16px_rgba(251,191,36,0.10)]">
+                          <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-200 via-cyan-200 to-emerald-200 drop-shadow-[0_0_18px_rgba(34,211,238,0.18)]">
                             {p.title}
                           </span>
                         </h3>
