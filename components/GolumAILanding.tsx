@@ -735,7 +735,7 @@ export default function GolemAILanding() {
                 className="mt-5 max-w-xl text-pretty text-base leading-relaxed text-white/70 sm:text-lg"
               >
                 Golem is an intelligent natural language layer for your business' AI-Ops. Our custom context protocols connect to your systems and help
-                execute/experiment safe, evidence-grounded realities.
+                sand-box/execute safe, evidence-grounded realities.
               </motion.p>
 
               <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
